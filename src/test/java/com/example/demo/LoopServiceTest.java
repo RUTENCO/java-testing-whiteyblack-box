@@ -8,38 +8,62 @@ class LoopServiceTest {
     private final LoopService loopService = new LoopService();
 
     @Test
-    void sumarDeberiaRetornarCeroCuandoElArregloEstaVacio() {
+    void deberiaRetornarCeroCuandoNoHayElementos() {
         // Arrange
-        int[] numeros = {};
+        double[] precios = {};
 
         // Act
-        int resultado = loopService.sumar(numeros);
+        double resultado = loopService.calcularTotal(precios);
 
         // Assert
         assertEquals(0, resultado);
     }
 
     @Test
-    void sumarDeberiaRetornarElMismoValorCuandoHayUnSoloElemento() {
+    void deberiaIgnorarValoresInvalidos() {
         // Arrange
-        int[] numeros = {5};
+        double[] precios = {-10, -5};
 
         // Act
-        int resultado = loopService.sumar(numeros);
+        double resultado = loopService.calcularTotal(precios);
 
         // Assert
-        assertEquals(5, resultado);
+        assertEquals(0, resultado);
     }
 
     @Test
-    void sumarDeberiaRetornarLaSumaCorrectaCuandoHayVariosElementos() {
+    void deberiaProcesarCorrectamenteElUltimoElemento() {
         // Arrange
-        int[] numeros = {2, 3, 5};
+        double[] precios = {100, 200};
 
         // Act
-        int resultado = loopService.sumar(numeros);
+        double resultado = loopService.calcularTotal(precios);
 
         // Assert
-        assertEquals(10, resultado);
+        assertEquals(100 + 180, resultado);
+    }
+
+    @Test
+    void deberiaAplicarDescuentoCuandoElPrecioEsAlto() {
+        // Arrange
+        double[] precios = {200};
+
+        // Act
+        double resultado = loopService.calcularTotal(precios);
+
+        // Assert
+        assertEquals(180, resultado);
+    }
+
+    @Test
+    void deberiaCalcularCorrectamenteConValoresMixtos() {
+        // Arrange
+        double[] precios = {50, 200, -10};
+
+        // Act
+        double resultado = loopService.calcularTotal(precios);
+
+        // Assert
+        assertEquals(230, resultado);
     }
 }
